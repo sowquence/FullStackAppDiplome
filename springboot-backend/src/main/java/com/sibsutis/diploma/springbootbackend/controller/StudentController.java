@@ -41,7 +41,7 @@ public class StudentController {
     public ResponseEntity<Student> updateStudent(@PathVariable long id, @RequestBody Student studentDetails){
         Student updateStudent = studentRepository.findById(id).orElseThrow(
                 ()->new ResourceNotFoundException("Student not exist with id " + id));
- 
+
         updateStudent.setFirstName(studentDetails.getFirstName());
         updateStudent.setLastName(studentDetails.getLastName());
         updateStudent.setGroupId(studentDetails.getGroupId());
