@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import StudentService from "../services/StudentService";
+import {Link} from "react-router-dom";
 
 
-const StudentListConmponent = () => {
+const StudentListComponent = () => {
 
     const [students, setStudents] = useState([]);
 
@@ -25,6 +26,9 @@ const StudentListConmponent = () => {
                     <td>{students.groupId}</td>
                     <td>{students.nickname}</td>
                     <td>{students.emailID}</td>
+                    <td>
+                        <Link className="btn btn-info" to={'/edit-student/${student.id}'}>Update</Link>
+                    </td>
                 </tr>
         )
     }
@@ -32,6 +36,7 @@ const StudentListConmponent = () => {
     return (
         <div className="container">
             <h2 className="text-center">List Students</h2>
+            <Link to="/add-student" className="btn btn-primary mb-2">Add Student</Link>
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -45,11 +50,11 @@ const StudentListConmponent = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {renderTable()}
+                    {renderTable()}
                 </tbody>
             </table>
         </div>
     );
 };
 
-export default StudentListConmponent;
+export default StudentListComponent;
