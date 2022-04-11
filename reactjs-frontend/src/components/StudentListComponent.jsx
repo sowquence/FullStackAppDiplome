@@ -7,14 +7,38 @@ const StudentListComponent = () => {
 
     const [students, setStudents] = useState([]);
 
+
     useEffect(() => {
-        StudentService.getAllStudents().then((response) => {
-            setStudents(response.data)
-            console.log(response.data);
-        }).catch(err => {
-            console.log(err)
-        })
+        getAllStudents();
     }, [])
+
+    const getAllStudents = (sortProperty) =>{
+
+        if (sortProperty){
+            StudentService.getAllStudents(sortProperty).then((response) => {
+                setStudents(response.data)
+                console.log(response.data);
+            }).catch(err => {
+                console.log(err)
+            })
+        }else {
+            StudentService.getAllStudents().then((response) => {
+                setStudents(response.data)
+                console.log(response.data);
+            }).catch(err => {
+                console.log(err)
+            })
+        }
+    }
+
+    const deleteStudent = (studentId) =>{
+        StudentService.deleteStudentById(studentId).then((response) =>{
+            getAllStudents();
+        }).catch((error)=>{
+            console.log(error)
+        })
+        console.log(studentId);
+    }
 
     const renderTable = () => {
         return students.map(
@@ -27,7 +51,28 @@ const StudentListComponent = () => {
                     <td>{students.nickname}</td>
                     <td>{students.emailID}</td>
                     <td>
-                        <Link className="btn btn-info" to={'/edit-student/${student.id}'}>Update</Link>
+
+                        <Link
+                            className="btn btn-info"
+                            to={`/info-student/${students.id}`} //TODO create info
+                        >
+                            INFO
+                        </Link>
+                        <Link
+                            className="btn btn-secondary"
+                            to={`/edit-student/${students.id}`}
+                            style={{marginLeft: "10px"}}
+                        >
+                            Update
+                        </Link>
+
+                        <button
+                            className="btn btn-danger"
+                            onClick={()=> deleteStudent(students.id)}
+                            style={{marginLeft: "10px"}}
+                        >
+                            Delete
+                        </button>
                     </td>
                 </tr>
         )
@@ -41,11 +86,42 @@ const StudentListComponent = () => {
                 <thead>
                 <tr>
                     <th>Student Id</th>
-                    <th>Student First Name</th>
-                    <th>Student Last Name</th>
-                    <th>Student Group</th>
-                    <th>Student Nickname</th>
-                    <th>Student Email</th>
+                    <th>Student First Name
+                        <button
+                            className="btn btn-primary"
+                            onClick={(e) => getAllStudents("firstName")}
+                        >^
+                        </button>
+                    </th>
+                    <th>Student Last Name
+                        <button
+                            className="btn btn-primary"
+                            onClick={(e) => getAllStudents("lastName")}
+                        >^
+                        </button>
+                    </th>
+                    <th>Student Group
+                        <button
+                            className="btn btn-primary"
+                            onClick={(e) => getAllStudents("groupId")}
+                        >^
+                        </button>
+                    </th>
+                    <th>
+                        Student Nickname
+                        <button
+                            className="btn btn-primary"
+                            onClick={(e) => getAllStudents("nickname")}
+                        >^
+                        </button>
+                    </th>
+                    <th>Student Email
+                        <button
+                           className="btn btn-primary"
+                           onClick={(e) => getAllStudents("emailId")}
+                        >^
+                        </button>
+                    </th>
                     <th>Action</th>
                 </tr>
                 </thead>

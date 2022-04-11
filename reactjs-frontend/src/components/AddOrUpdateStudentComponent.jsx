@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Link, useNavigate, useParams} from "react-router-dom";
 import StudentService from "../services/StudentService";
 
-const AddStudentComponent = () => {
+const AddOrUpdateStudentComponent = () => {
 
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -14,7 +14,7 @@ const AddStudentComponent = () => {
 
     const {id} = useParams();
 
-    const saveStudent = (e) => {
+    const saveOrUpdateStudent = (e) => {
         e.preventDefault();
 
         const student = {
@@ -25,24 +25,35 @@ const AddStudentComponent = () => {
             emailID
         }
 
-        StudentService.createStudent(student).then((response) => {
-            console.log(response.data)
-            navigate('/students')
-        }).catch(error => {
-            console.log(error)
-        })
+        if (id){
+            StudentService.updateStudentById(id,student).then((response) => {
+                console.log(response.data)
+                navigate('/students')
+            }).catch(error => {
+                console.log(error)
+            })
+        } else {
+            StudentService.createStudent(student).then((response) => {
+                console.log(response.data)
+                navigate('/students')
+            }).catch(error => {
+                console.log(error)
+            })
+        }
     }
 
     useEffect(() => {
-        StudentService.getStudentById(id).then((response) => {
-            setFirstName(response.data.firstName)
-            setLastName(response.data.lastName)
-            setGroupId(response.data.groupId)
-            setNickname(response.data.nickname)
-            setEmailID(response.data.emailID)
-        }).catch(err => {
-            console.log(err)
-        })
+        if (id) {
+            StudentService.getStudentById(id).then((response) => {
+                setFirstName(response.data.firstName)
+                setLastName(response.data.lastName)
+                setGroupId(response.data.groupId)
+                setNickname(response.data.nickname)
+                setEmailID(response.data.emailID)
+            }).catch(err => {
+                console.log(err)
+            })
+        }
     }, [])
 
     const title = () =>{
@@ -123,7 +134,8 @@ const AddStudentComponent = () => {
                                         onChange={(e) => setEmailID(e.target.value)}
                                     />
                                 </div>
-                                <button className="btn btn-success" onClick={(e) => saveStudent(e)}>Save</button>
+                                <button className="btn btn-success" onClick={
+                                    (e) => saveOrUpdateStudent(e)}>Save</button>
                                 <Link to="/students" className="btn btn-danger">Cancel</Link>
                             </form>
                         </div>
@@ -134,4 +146,4 @@ const AddStudentComponent = () => {
     );
 };
 
-export default AddStudentComponent;
+export default AddOrUpdateStudentComponent;
