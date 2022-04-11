@@ -9,7 +9,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("api/v1/cf_info")
 public class CodeforcesController {
 
-    
-
-
 }
