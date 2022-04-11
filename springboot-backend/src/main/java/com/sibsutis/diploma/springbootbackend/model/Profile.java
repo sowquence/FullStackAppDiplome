@@ -1,6 +1,5 @@
 package com.sibsutis.diploma.springbootbackend.model;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,23 +12,23 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "students")
-public class Student {
-
+@Table(name = "profiles")
+public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "group_id")
-    private String groupId;
     private String handle;
 
-    @Column(name = "email_id")
-    private String emailID;
+    @Column(name = "curr_rating")
+    private int rating;
+
+    @Column(name = "curr_rank")
+    private String rank;
+
+    @Column(name = "max_rating")
+    private int maxRating;
+    @Column(name = "max_rank")
+    private String maxRank;
+
 }

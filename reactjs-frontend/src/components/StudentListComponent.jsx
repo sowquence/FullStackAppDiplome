@@ -48,13 +48,13 @@ const StudentListComponent = () => {
                     <td>{students.firstName}</td>
                     <td>{students.lastName}</td>
                     <td>{students.groupId}</td>
-                    <td>{students.nickname}</td>
+                    <td>{students.handle}</td>
                     <td>{students.emailID}</td>
                     <td>
 
                         <Link
                             className="btn btn-info"
-                            to={`/info-student/${students.id}`} //TODO create info
+                            to={`/info-student/${students.id}`}
                         >
                             INFO
                         </Link>
@@ -108,7 +108,7 @@ const StudentListComponent = () => {
                         </button>
                     </th>
                     <th>
-                        Student Nickname
+                        Student Handle
                         <button
                             className="btn btn-primary"
                             onClick={(e) => getAllStudents("nickname")}

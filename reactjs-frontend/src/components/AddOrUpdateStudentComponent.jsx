@@ -7,7 +7,7 @@ const AddOrUpdateStudentComponent = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [groupId, setGroupId] = useState('');
-    const [nickname, setNickname] = useState('');
+    const [handle, setHandle] = useState('');
     const [emailID, setEmailID] = useState('');
 
     const navigate = useNavigate();
@@ -21,7 +21,7 @@ const AddOrUpdateStudentComponent = () => {
             firstName,
             lastName,
             groupId,
-            nickname,
+            handle,
             emailID
         }
 
@@ -48,7 +48,7 @@ const AddOrUpdateStudentComponent = () => {
                 setFirstName(response.data.firstName)
                 setLastName(response.data.lastName)
                 setGroupId(response.data.groupId)
-                setNickname(response.data.nickname)
+                setHandle(response.data.handle)
                 setEmailID(response.data.emailID)
             }).catch(err => {
                 console.log(err)
@@ -62,7 +62,6 @@ const AddOrUpdateStudentComponent = () => {
         else
             return <h2 className="text-center">Add Student</h2>
     };
-
 
     return (
         <div>
@@ -118,8 +117,8 @@ const AddOrUpdateStudentComponent = () => {
                                         placeholder="Enter nickname"
                                         name="nickname"
                                         className="form-control"
-                                        value={nickname}
-                                        onChange={(e) => setNickname(e.target.value)}
+                                        value={handle}
+                                        onChange={(e) => setHandle(e.target.value)}
                                     />
                                 </div>
 
