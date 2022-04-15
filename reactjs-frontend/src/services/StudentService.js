@@ -4,8 +4,8 @@ const STUDENT_BASE_REST_API_URL = 'http://localhost:8080/api/v1/students';
 
 class StudentService {
 
-    getAllStudents() {
-        return axios.get(STUDENT_BASE_REST_API_URL);
+    getAllStudents(sort_val) {
+        return axios.get(STUDENT_BASE_REST_API_URL + "/sort/" + sort_val);
     }
 
     createStudent(student) {

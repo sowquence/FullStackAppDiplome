@@ -7,33 +7,44 @@ const StudentListComponent = () => {
 
     const [students, setStudents] = useState([]);
 
+    const [sort, setSort] = useState(["Standard", "FirstName", "LastName", "Group", "Handle", "Email"])
+    const Add = sort.map(Add => Add)
+
+    let sortVal = "0";
+
+    const handleSortTypeChange = (e) => {
+        if (sort[e.target.value] === "Standard")
+            sortVal = 0;
+        if (sort[e.target.value] === "FirstName")
+            sortVal = 1;
+        if (sort[e.target.value] === "LastName")
+            sortVal = 2;
+        if (sort[e.target.value] === "Group")
+            sortVal = 3;
+        if (sort[e.target.value] === "Handle")
+            sortVal = 4;
+        if (sort[e.target.value] === "Email")
+            sortVal = 5;
+        getAllStudents(sortVal);
+    }
+
     useEffect(() => {
-        getAllStudents();
+        getAllStudents(0);
     }, [])
 
-    const getAllStudents = () =>{
-        StudentService.getAllStudents().then((response) => {
+    const getAllStudents = (sort_val) => {
+        StudentService.getAllStudents(sort_val).then((response) => {
             setStudents(response.data)
             console.log(response.data);
         }).catch(err => {
             console.log(err)
         })
-        // if (sortProperty){
-        //     StudentService.getAllStudents(sortProperty).then((response) => {
-        //         setStudents(response.data)
-        //         console.log(response.data);
-        //     }).catch(err => {
-        //         console.log(err)
-        //     })
-        // }else {
-
-        // }
     }
 
-    const deleteStudent = (studentId) =>{
-        StudentService.deleteStudentById(studentId).then((response) =>{
+    const deleteStudent = (studentId) => {
+        StudentService.deleteStudentById(studentId).then((response) => {
             getAllStudents();
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error)
         })
         console.log(studentId);
@@ -43,7 +54,6 @@ const StudentListComponent = () => {
         return students.map(
             students =>
                 <tr key={students.id}>
-                    <td>{students.id}</td>
                     <td>{students.firstName}</td>
                     <td>{students.lastName}</td>
                     <td>{students.groupId}</td>
@@ -67,7 +77,7 @@ const StudentListComponent = () => {
 
                         <button
                             className="btn btn-danger"
-                            onClick={()=> deleteStudent(students.id)}
+                            onClick={() => deleteStudent(students.id)}
                             style={{marginLeft: "10px"}}
                         >
                             Delete
@@ -80,52 +90,31 @@ const StudentListComponent = () => {
     return (
         <div className="container">
             <h2 className="text-center">List Students</h2>
-            <Link to="/add-student" className="btn btn-primary mb-2">Add Student</Link>
+            <div className="row ">
+                <Link to="/add-student" className="col-md-2 btn btn-primary mb-2">Add Student</Link>
+                <div className="col-md-10 d-flex justify-content-end">
+                    <h5 className="mt-2 m-2">Sorting By</h5>
+                    <select onChange={e => handleSortTypeChange(e)}>
+                        {
+                            Add.map((sort, key) => <option key={key} value={key}>{sort}</option>)
+                        }
+                    </select>
+                </div>
+            </div>
+
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Student Id</th>
-                    <th>Student First Name
-                        <button
-                            className="btn btn-primary"
-                            onClick={(e) => getAllStudents("firstName")}
-                        >^
-                        </button>
-                    </th>
-                    <th>Student Last Name
-                        <button
-                            className="btn btn-primary"
-                            onClick={(e) => getAllStudents("lastName")}
-                        >^
-                        </button>
-                    </th>
-                    <th>Student Group
-                        <button
-                            className="btn btn-primary"
-                            onClick={(e) => getAllStudents("groupId")}
-                        >^
-                        </button>
-                    </th>
-                    <th>
-                        Student Handle
-                        <button
-                            className="btn btn-primary"
-                            onClick={(e) => getAllStudents("nickname")}
-                        >^
-                        </button>
-                    </th>
-                    <th>Student Email
-                        <button
-                           className="btn btn-primary"
-                           onClick={(e) => getAllStudents("emailId")}
-                        >^
-                        </button>
-                    </th>
+                    <th>Student First Name</th>
+                    <th>Student Last Name</th>
+                    <th>Student Group</th>
+                    <th>Student Handle</th>
+                    <th>Student Email</th>
                     <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
-                    {renderTable()}
+                {renderTable()}
                 </tbody>
             </table>
         </div>

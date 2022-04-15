@@ -34,18 +34,5 @@ public class StudentProfile {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
     private Student student;
-
-    @Override
-    public String toString() {
-        return "StudentProfile{" +
-                "id=" + id +
-                ", handle='" + handle + '\'' +
-                ", rating=" + rating +
-                ", rank='" + rank + '\'' +
-                ", maxRating=" + maxRating +
-                ", maxRank='" + maxRank + '\'' +
-                ", student=" + student +
-                '}';
-    }
 }
 

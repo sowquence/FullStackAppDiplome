@@ -4,6 +4,7 @@ import StudentListComponent from "./components/StudentListComponent";
 import HeaderComponent from "./components/HeaderComponent";
 import FooterComponent from "./components/FooterComponent";
 import AddOrUpdateStudentComponent from "./components/AddOrUpdateStudentComponent";
+import ProfileListComponent from "./components/ProfileListComponent";
 
 function App() {
     return (
@@ -16,9 +17,8 @@ function App() {
                         <Route path="/students" element={<StudentListComponent/>}/>
                         <Route path="/add-student" element={<AddOrUpdateStudentComponent/>}/>
                         <Route path="/edit-student/:id" element={<AddOrUpdateStudentComponent/>}/>
-                        {/*<Route path="/_students" element={<ProfileListComponent/>}/>*/}
-                        {/*<Route path="/info-student/:id" element={</>}/>*/}
-                        {/*<Route path="/performance-student" element={</>}/>*/}
+                        <Route path="/profiles" element={<ProfileListComponent/>}/>
+
                     </Routes>
                 </div>
                 <FooterComponent/>

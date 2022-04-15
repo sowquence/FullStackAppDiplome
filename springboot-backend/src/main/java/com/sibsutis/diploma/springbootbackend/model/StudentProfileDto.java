@@ -16,12 +16,4 @@ import java.util.List;
 public class StudentProfileDto {
     private String status;
     private List<StudentProfile> result;
-
-    @Override
-    public String toString() {
-        return "StudentProfileDto{" +
-                "status='" + status + '\'' +
-                ", result=" + result +
-                '}';
-    }
 }

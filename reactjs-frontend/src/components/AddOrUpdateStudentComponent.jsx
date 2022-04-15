@@ -111,10 +111,10 @@ const AddOrUpdateStudentComponent = () => {
                                 </div>
 
                                 <div className="form-group mb-2">
-                                    <label className="form-label">Nickname:</label>
+                                    <label className="form-label">Handle:</label>
                                     <input
                                         type="text"
-                                        placeholder="Enter nickname"
+                                        placeholder="Enter codeforces handle"
                                         name="nickname"
                                         className="form-control"
                                         value={handle}

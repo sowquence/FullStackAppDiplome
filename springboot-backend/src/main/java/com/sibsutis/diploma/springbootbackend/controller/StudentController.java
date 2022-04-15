@@ -11,9 +11,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
-@CrossOrigin(origins = {"http://localhost:3000/"})
+@CrossOrigin(origins = {"http://localhost:3000/", "http://192.168.0.6:3000/"})
 @RestController
 @RequestMapping("api/v1/students")
 public class StudentController {
@@ -29,7 +31,7 @@ public class StudentController {
 
     // add new student
     @PostMapping //POST : http://localhost:8080/api/v1/students :: JSON_BODY
-    public Student addNewStudent(@RequestBody Student student){
+    public Student addNewStudent(@RequestBody Student student) {
         StudentProfile studentProfile = codeforcesService.getStudentProfile(student.getHandle());
         student.setProfile(studentProfile);
         studentProfile.setStudent(student);
@@ -38,16 +40,40 @@ public class StudentController {
     }
 
     // view all students
-    @GetMapping() //GET : http://localhost:8080/api/v1/students
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    @GetMapping("sort/{val}") //GET : http://localhost:8080/api/v1/students
+    public List<Student> getAllStudents(@PathVariable String val) {
+        List<Student> sortingStudents = studentRepository.findAll();
+        int int_val = Integer.parseInt(val);
+        if (int_val == 0)
+            return sortingStudents;
+        if (int_val == 1){
+            sortingStudents.sort((a, b) -> a.getFirstName().compareToIgnoreCase(b.getFirstName()));
+            return sortingStudents;
+        }
+        if (int_val == 2){
+            sortingStudents.sort((a, b) -> a.getLastName().compareToIgnoreCase(b.getLastName()));
+            return sortingStudents;
+        }
+        if (int_val == 3){
+            sortingStudents.sort((a, b) -> a.getGroupId().compareToIgnoreCase(b.getGroupId()));
+            return sortingStudents;
+        }
+        if (int_val == 4){
+            sortingStudents.sort((a, b) -> a.getHandle().compareToIgnoreCase(b.getHandle()));
+            return sortingStudents;
+        }
+        if (int_val == 5){
+            sortingStudents.sort((a, b) -> a.getEmailID().compareToIgnoreCase(b.getEmailID()));
+            return sortingStudents;
+        }
+        return sortingStudents;
     }
 
     //get student by id
     @GetMapping("{id}") //GET : http://localhost:8080/api/v1/students/{id}
-    public ResponseEntity<Student> getStudentById(@PathVariable long id){
+    public ResponseEntity<Student> getStudentById(@PathVariable long id) {
         Student student = studentRepository.findById(id).orElseThrow(
-                ()->new ResourceNotFoundException("Student not exist with id " + id));
+                () -> new ResourceNotFoundException("Student not exist with id " + id));
         return ResponseEntity.ok(student);
     }
 
