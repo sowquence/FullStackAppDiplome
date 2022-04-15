@@ -16,6 +16,7 @@ function App() {
                         <Route path="/students" element={<StudentListComponent/>}/>
                         <Route path="/add-student" element={<AddOrUpdateStudentComponent/>}/>
                         <Route path="/edit-student/:id" element={<AddOrUpdateStudentComponent/>}/>
+                        {/*<Route path="/_students" element={<ProfileListComponent/>}/>*/}
                         {/*<Route path="/info-student/:id" element={</>}/>*/}
                         {/*<Route path="/performance-student" element={</>}/>*/}
                     </Routes>

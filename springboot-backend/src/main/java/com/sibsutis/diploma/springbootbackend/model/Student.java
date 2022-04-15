@@ -1,6 +1,6 @@
 package com.sibsutis.diploma.springbootbackend.model;
 
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,4 +32,9 @@ public class Student {
 
     @Column(name = "email_id")
     private String emailID;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "up_id")
+    @JsonBackReference
+    private StudentProfile profile;
 }

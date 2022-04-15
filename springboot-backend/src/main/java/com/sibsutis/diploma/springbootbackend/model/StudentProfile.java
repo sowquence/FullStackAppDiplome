@@ -12,8 +12,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "profiles")
-public class Profile {
+@Table(name = "student_profile")
+public class StudentProfile {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -31,4 +32,20 @@ public class Profile {
     @Column(name = "max_rank")
     private String maxRank;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
+    private Student student;
+
+    @Override
+    public String toString() {
+        return "StudentProfile{" +
+                "id=" + id +
+                ", handle='" + handle + '\'' +
+                ", rating=" + rating +
+                ", rank='" + rank + '\'' +
+                ", maxRating=" + maxRating +
+                ", maxRank='" + maxRank + '\'' +
+                ", student=" + student +
+                '}';
+    }
 }
+

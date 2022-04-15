@@ -7,28 +7,27 @@ const StudentListComponent = () => {
 
     const [students, setStudents] = useState([]);
 
-
     useEffect(() => {
         getAllStudents();
     }, [])
 
-    const getAllStudents = (sortProperty) =>{
+    const getAllStudents = () =>{
+        StudentService.getAllStudents().then((response) => {
+            setStudents(response.data)
+            console.log(response.data);
+        }).catch(err => {
+            console.log(err)
+        })
+        // if (sortProperty){
+        //     StudentService.getAllStudents(sortProperty).then((response) => {
+        //         setStudents(response.data)
+        //         console.log(response.data);
+        //     }).catch(err => {
+        //         console.log(err)
+        //     })
+        // }else {
 
-        if (sortProperty){
-            StudentService.getAllStudents(sortProperty).then((response) => {
-                setStudents(response.data)
-                console.log(response.data);
-            }).catch(err => {
-                console.log(err)
-            })
-        }else {
-            StudentService.getAllStudents().then((response) => {
-                setStudents(response.data)
-                console.log(response.data);
-            }).catch(err => {
-                console.log(err)
-            })
-        }
+        // }
     }
 
     const deleteStudent = (studentId) =>{

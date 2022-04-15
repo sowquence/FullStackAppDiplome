@@ -1,11 +1,8 @@
 package com.sibsutis.diploma.springbootbackend.service;
 
-import com.sibsutis.diploma.springbootbackend.model.Profile;
+import com.sibsutis.diploma.springbootbackend.model.StudentProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.net.URISyntaxException;
-import java.util.List;
 
 @Service
 public class CodeforcesService {
@@ -13,8 +10,8 @@ public class CodeforcesService {
     @Autowired
     private CodeforcesClient codeforcesClient;
 
-    public List<Profile> findAllUsers(List<String> handles) throws URISyntaxException {
-        return codeforcesClient.getUsers(handles);
+    public StudentProfile getStudentProfile(String handle){
+        return codeforcesClient.getStudentProfile(handle);
     }
 
 }

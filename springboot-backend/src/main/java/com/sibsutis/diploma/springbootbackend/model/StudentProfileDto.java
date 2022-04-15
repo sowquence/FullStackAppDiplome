@@ -13,7 +13,15 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ProfileDto {
+public class StudentProfileDto {
     private String status;
-    private List<Profile> result;
+    private List<StudentProfile> result;
+
+    @Override
+    public String toString() {
+        return "StudentProfileDto{" +
+                "status='" + status + '\'' +
+                ", result=" + result +
+                '}';
+    }
 }
