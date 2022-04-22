@@ -18,7 +18,6 @@ function App() {
                         <Route path="/add-student" element={<AddOrUpdateStudentComponent/>}/>
                         <Route path="/edit-student/:id" element={<AddOrUpdateStudentComponent/>}/>
                         <Route path="/profiles" element={<ProfileListComponent/>}/>
-
                     </Routes>
                 </div>
                 <FooterComponent/>

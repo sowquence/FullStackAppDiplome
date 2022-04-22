@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin(origins = {"http://localhost:3000/", "http://192.168.0.6:3000/"})
@@ -31,12 +30,18 @@ public class StudentController {
 
     // add new student
     @PostMapping //POST : http://localhost:8080/api/v1/students :: JSON_BODY
-    public Student addNewStudent(@RequestBody Student student) {
-        StudentProfile studentProfile = codeforcesService.getStudentProfile(student.getHandle());
-        student.setProfile(studentProfile);
-        studentProfile.setStudent(student);
-        studentRepository.save(student);
-        return student;
+    public ResponseEntity<Student> addNewStudent(@RequestBody Student student) {
+        try {
+            StudentProfile studentProfile = codeforcesService.getStudentProfile(student.getHandle());
+            studentProfile.setTotalTasks(codeforcesService.getTotalTasksSolvedByHandle(student.getHandle()));
+
+            student.setProfile(studentProfile);
+            studentProfile.setStudent(student);
+            studentRepository.save(student);
+            return ResponseEntity.ok(student);
+        } catch (HttpClientErrorException e){
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // view all students
@@ -99,7 +104,8 @@ public class StudentController {
         updateProfile.setRank(studentProfileDetails.getRank());
         updateProfile.setMaxRating(studentProfileDetails.getMaxRating());
         updateProfile.setMaxRank(studentProfileDetails.getMaxRank());
-
+        updateProfile.setSolvedContests(0);
+        updateProfile.setTotalTasks(0);
 
         updateStudent.setProfile(updateProfile);
         updateProfile.setStudent(updateStudent);

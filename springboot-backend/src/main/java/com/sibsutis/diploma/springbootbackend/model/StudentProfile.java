@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -32,7 +33,31 @@ public class StudentProfile {
     @Column(name = "max_rank")
     private String maxRank;
 
+    @Column(name = "solved_contests")
+    private int solvedContests;
+
+    @Column(name = "total_tasks")
+    private int totalTasks;
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
     private Student student;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "profile_fid", referencedColumnName = "id")
+    private List<Contest> contests;
+
+    @Override
+    public String toString() {
+        return "StudentProfile{" +
+                "id=" + id +
+                ", handle='" + handle + '\'' +
+                ", rating=" + rating +
+                ", rank='" + rank + '\'' +
+                ", maxRating=" + maxRating +
+                ", maxRank='" + maxRank + '\'' +
+                ", student=" + student +
+                ", contests=" + contests +
+                '}';
+    }
 }
 

@@ -7,8 +7,8 @@ const StudentListComponent = () => {
 
     const [students, setStudents] = useState([]);
 
-    const [sort, setSort] = useState(["Standard", "FirstName", "LastName", "Group", "Handle", "Email"])
-    const Add = sort.map(Add => Add)
+    const [sort, setSort] = useState(["Standard", "FirstName", "LastName", "Group", "Handle", "Email"]);
+    const Add = sort.map(Add => Add);
 
     let sortVal = "0";
 
@@ -43,7 +43,7 @@ const StudentListComponent = () => {
 
     const deleteStudent = (studentId) => {
         StudentService.deleteStudentById(studentId).then((response) => {
-            getAllStudents();
+            getAllStudents(sortVal);
         }).catch((error) => {
             console.log(error)
         })

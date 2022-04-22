@@ -10,6 +10,8 @@ const AddOrUpdateStudentComponent = () => {
     const [handle, setHandle] = useState('');
     const [emailID, setEmailID] = useState('');
 
+    const [handleError, setHandleError] = useState(false);
+
     const navigate = useNavigate();
 
     const {id} = useParams();
@@ -38,7 +40,16 @@ const AddOrUpdateStudentComponent = () => {
                 navigate('/students')
             }).catch(error => {
                 console.log(error)
+                setHandleError(true);
             })
+        }
+    }
+
+    const handleErrorHandler = () => {
+        if (handleError){
+            return <p style={{color:"red"}}>
+                        Пользователя с таким Хендлом не существует.
+                    </p>
         }
     }
 
@@ -73,12 +84,12 @@ const AddOrUpdateStudentComponent = () => {
                             title()
                         }
                         <div className="card-body">
-                            <form>
+                            <form onSubmit={(e) => saveOrUpdateStudent(e)}>
                                 <div className="form-group mb-2">
-                                    <label className="form-label">First Name:</label>
+                                    <label className="form-label">Имя:</label>
                                     <input
                                         type="text"
-                                        placeholder="Enter first name"
+                                        placeholder="Введите имя"
                                         name="firstName"
                                         className="form-control"
                                         value={firstName}
@@ -87,10 +98,10 @@ const AddOrUpdateStudentComponent = () => {
                                 </div>
 
                                 <div className="form-group mb-2">
-                                    <label className="form-label">Last Name:</label>
+                                    <label className="form-label">Фамилия:</label>
                                     <input
                                         type="text"
-                                        placeholder="Enter last name"
+                                        placeholder="Введите фамилию"
                                         name="lastName"
                                         className="form-control"
                                         value={lastName}
@@ -99,10 +110,10 @@ const AddOrUpdateStudentComponent = () => {
                                 </div>
 
                                 <div className="form-group mb-2">
-                                    <label className="form-label">Group:</label>
+                                    <label className="form-label">Группа:</label>
                                     <input
                                         type="text"
-                                        placeholder="Enter group"
+                                        placeholder="Введите группу"
                                         name="groupId"
                                         className="form-control"
                                         value={groupId}
@@ -111,30 +122,35 @@ const AddOrUpdateStudentComponent = () => {
                                 </div>
 
                                 <div className="form-group mb-2">
-                                    <label className="form-label">Handle:</label>
+                                    <label className="form-label">Хендл:</label>
                                     <input
                                         type="text"
-                                        placeholder="Enter codeforces handle"
-                                        name="nickname"
+                                        placeholder="Введите хендл с codeforces"
+                                        name="handle"
                                         className="form-control"
                                         value={handle}
                                         onChange={(e) => setHandle(e.target.value)}
                                     />
+                                    {
+                                        handleErrorHandler()
+                                    }
                                 </div>
 
                                 <div className="form-group mb-2">
-                                    <label className="form-label">Email:</label>
+                                    <label htmlFor="validationFormCheck2" className="form-label">Email:</label>
                                     <input
+                                        id="validationFormCheck2"
+                                        required
                                         type="email"
-                                        placeholder="Enter email"
+                                        placeholder="Введите Email"
                                         name="emailID"
                                         className="form-control"
                                         value={emailID}
                                         onChange={(e) => setEmailID(e.target.value)}
                                     />
                                 </div>
-                                <button className="btn btn-success" onClick={
-                                    (e) => saveOrUpdateStudent(e)}>Save</button>
+
+                                <button className="btn btn-success" type="submit">Save</button>
                                 <Link to="/students" className="btn btn-danger">Cancel</Link>
                             </form>
                         </div>
