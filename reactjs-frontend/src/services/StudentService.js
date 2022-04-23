@@ -24,5 +24,4 @@ class StudentService {
         return axios.delete(STUDENT_BASE_REST_API_URL + '/' + studentId);
     }
 }
-
 export default new StudentService();

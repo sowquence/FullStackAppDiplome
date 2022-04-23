@@ -41,7 +41,7 @@ public class ProfileController {
     }
 
     //Обновление данных профиля студента
-    @PutMapping("update/{id}") // http://localhost:8080/api/v1/profiles/contest/1
+    @PutMapping("update/{id}") // http://localhost:8080/api/v1/profiles/update/1
     public ResponseEntity<StudentProfile> updateProfileById(@PathVariable long id){
 
         //TODO обновление данных всего профиля

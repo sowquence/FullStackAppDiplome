@@ -24,6 +24,8 @@ const ProfileListComponent = () => {
                 <tr key={profiles.id}>
                     <td>{profiles.handle}</td>
                     <td>{profiles.rating}</td>
+                    <td>{profiles.solvedContests}</td>
+                    <td>{profiles.totalTasks}</td>
                     <td>{profiles.rank}</td>
                     <td>{profiles.maxRating}</td>
                     <td>{profiles.maxRank}</td>
@@ -39,6 +41,8 @@ const ProfileListComponent = () => {
                 <tr>
                     <th>Handle</th>
                     <th>Rating</th>
+                    <th>Контестов</th>
+                    <th>Всего задач</th>
                     <th>Rank</th>
                     <th>Max rating</th>
                     <th>Max rank</th>

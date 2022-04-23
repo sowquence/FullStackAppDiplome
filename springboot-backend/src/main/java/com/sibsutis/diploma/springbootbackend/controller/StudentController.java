@@ -1,6 +1,7 @@
 package com.sibsutis.diploma.springbootbackend.controller;
 
 import com.sibsutis.diploma.springbootbackend.exception.ResourceNotFoundException;
+import com.sibsutis.diploma.springbootbackend.model.Contest;
 import com.sibsutis.diploma.springbootbackend.model.Student;
 import com.sibsutis.diploma.springbootbackend.model.StudentProfile;
 import com.sibsutis.diploma.springbootbackend.repository.StudentProfileRepository;
@@ -34,6 +35,10 @@ public class StudentController {
         try {
             StudentProfile studentProfile = codeforcesService.getStudentProfile(student.getHandle());
             studentProfile.setTotalTasks(codeforcesService.getTotalTasksSolvedByHandle(student.getHandle()));
+
+            List<Contest> contests = codeforcesService.getStudentContests(student.getHandle());
+            studentProfile.setSolvedContests(contests.size());
+            studentProfile.setContests(contests);
 
             student.setProfile(studentProfile);
             studentProfile.setStudent(student);

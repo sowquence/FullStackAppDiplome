@@ -2,9 +2,9 @@ import './App.css';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
 import StudentListComponent from "./components/StudentListComponent";
 import HeaderComponent from "./components/HeaderComponent";
-import FooterComponent from "./components/FooterComponent";
 import AddOrUpdateStudentComponent from "./components/AddOrUpdateStudentComponent";
 import ProfileListComponent from "./components/ProfileListComponent";
+import AllGymListComponent from "./components/GymComponents/AllGymListComponent";
 
 function App() {
     return (
@@ -18,9 +18,9 @@ function App() {
                         <Route path="/add-student" element={<AddOrUpdateStudentComponent/>}/>
                         <Route path="/edit-student/:id" element={<AddOrUpdateStudentComponent/>}/>
                         <Route path="/profiles" element={<ProfileListComponent/>}/>
+                        <Route path={"/gyms"} element={<AllGymListComponent/>} />
                     </Routes>
                 </div>
-                <FooterComponent/>
             </Router>
         </div>
     );
