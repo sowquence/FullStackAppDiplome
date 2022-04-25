@@ -1,4 +1,4 @@
-package com.sibsutis.diploma.springbootbackend.model;
+package com.sibsutis.diploma.springbootbackend.model.gymModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,14 +18,11 @@ public class Gym {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "gym_id")
+    @Column(name = "id")
     private long gymId;
 
+    @Column(name = "gym_id")
     private long id;
     private String name;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "gym_fid", referencedColumnName = "gym_id")
-    private List<Problem> problems;
 
 }

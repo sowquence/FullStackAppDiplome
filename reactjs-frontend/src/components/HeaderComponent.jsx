@@ -9,10 +9,13 @@ const HeaderComponent = () => {
                     <div>
                         <a href="/" className="navbar-brand offset-md-3">Student Management Application </a>
                     </div>
+
                     <Link to={"/students"} style={{marginLeft: "1000px"}}
                           className=" btn btn-secondary">Students</Link> {"\t "}
                     <Link to={"/profiles"} style={{marginLeft: "10px"}}
                           className=" btn btn-secondary">Rating</Link>
+                    <Link to={"/my_gyms"} style={{marginLeft: "10px"}}
+                          className=" btn btn-secondary" >My Gyms</Link>
                     <Link to={"/gyms"} style={{marginLeft: "10px"}}
                           className=" btn btn-secondary" >Gyms</Link>
                 </nav>

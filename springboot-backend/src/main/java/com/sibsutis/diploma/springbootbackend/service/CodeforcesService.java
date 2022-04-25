@@ -1,10 +1,9 @@
 package com.sibsutis.diploma.springbootbackend.service;
 
-import com.sibsutis.diploma.springbootbackend.dto.GymDto;
-import com.sibsutis.diploma.springbootbackend.model.Contest;
-import com.sibsutis.diploma.springbootbackend.model.Gym;
-import com.sibsutis.diploma.springbootbackend.model.Problem;
-import com.sibsutis.diploma.springbootbackend.model.StudentProfile;
+import com.sibsutis.diploma.springbootbackend.model.*;
+import com.sibsutis.diploma.springbootbackend.model.gymModel.Gym;
+import com.sibsutis.diploma.springbootbackend.model.gymModel.Problem;
+import com.sibsutis.diploma.springbootbackend.model.gymModel.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,8 @@ public class CodeforcesService {
         return codeforcesClient.getStudentContests(handle);
     }
 
-    public Map<Gym, List<Problem>> getStudentGym(String handle, long contestId){
-        return codeforcesClient.getGym(handle,contestId);
+    public Result getStudentGym(long contestId){
+        return codeforcesClient.getGym(contestId);
     }
 
     public int getTotalTasksSolvedByHandle(String handle){

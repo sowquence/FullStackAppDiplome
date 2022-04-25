@@ -1,5 +1,8 @@
 package com.sibsutis.diploma.springbootbackend.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.sibsutis.diploma.springbootbackend.dto.GymDto;
+import com.sibsutis.diploma.springbootbackend.model.gymModel.Result;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -30,6 +33,7 @@ public class StudentProfile {
 
     @Column(name = "max_rating")
     private int maxRating;
+
     @Column(name = "max_rank")
     private String maxRank;
 
@@ -45,19 +49,5 @@ public class StudentProfile {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_fid", referencedColumnName = "id")
     private List<Contest> contests;
-
-    @Override
-    public String toString() {
-        return "StudentProfile{" +
-                "id=" + id +
-                ", handle='" + handle + '\'' +
-                ", rating=" + rating +
-                ", rank='" + rank + '\'' +
-                ", maxRating=" + maxRating +
-                ", maxRank='" + maxRank + '\'' +
-                ", student=" + student +
-                ", contests=" + contests +
-                '}';
-    }
 }
 

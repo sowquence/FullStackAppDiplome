@@ -1,4 +1,4 @@
-package com.sibsutis.diploma.springbootbackend.model;
+package com.sibsutis.diploma.springbootbackend.model.gymModel;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "problems")
+@Table(name = "gym_problems")
 public class Problem {
 
     @Id

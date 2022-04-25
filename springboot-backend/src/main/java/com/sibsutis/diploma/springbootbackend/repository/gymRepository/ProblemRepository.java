@@ -1,6 +1,6 @@
-package com.sibsutis.diploma.springbootbackend.repository;
+package com.sibsutis.diploma.springbootbackend.repository.gymRepository;
 
-import com.sibsutis.diploma.springbootbackend.model.Problem;
+import com.sibsutis.diploma.springbootbackend.model.gymModel.Problem;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

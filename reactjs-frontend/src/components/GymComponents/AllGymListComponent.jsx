@@ -8,7 +8,8 @@ const AllGymListComponent = () => {
     const [gyms, setGyms] = useState([]);
     const [loading, setLoading] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
-    const [gymsPerPage] = useState(15);
+    const [gymsPerPage] = useState(10);
+    const [searchVal,setSearchVal] = useState('');
 
     useEffect(() => {
         getAllGyms().then(r => console.log(r)).catch(error => console.log(error))
@@ -25,18 +26,29 @@ const AllGymListComponent = () => {
         })
     }
 
+    const searchHandler = (sVal) =>{
+        setCurrentPage(1);
+        setSearchVal(sVal)
+    }
+
+    const filteredGyms = gyms.filter(gym => {
+        return gym.name.toLowerCase().includes(searchVal.toLowerCase());
+    })
+
     const lastGymIndex = currentPage * gymsPerPage;
     const firstGtmIndex = lastGymIndex - gymsPerPage;
-    const currentGym = gyms.slice(firstGtmIndex, lastGymIndex);
+    const currentGym = filteredGyms.slice(firstGtmIndex, lastGymIndex);
 
     const paginate = pageNumber => setCurrentPage(pageNumber);
 
     return (
         <div className="container mt-5">
-            <h1 className="text-primary"> Доступные тренировки :</h1>
+            <div>
+                <h1 className="text-primary"> Доступные тренировки :</h1>
+            </div>
 
-            <Gyms gyms={currentGym} loading={loading}/>
-            <Pages gymsPerPage={gymsPerPage} totalGyms={gyms.length} currPage={currentPage} paginate={paginate}/>
+            <Gyms gyms={currentGym} loading={loading} searchHandler={searchHandler}/>
+            <Pages gymsPerPage={gymsPerPage} totalGyms={filteredGyms.length} currPage={currentPage} paginate={paginate}/>
 
         </div>
     );

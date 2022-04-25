@@ -2,11 +2,11 @@ package com.sibsutis.diploma.springbootbackend.service;
 
 import com.sibsutis.diploma.springbootbackend.dto.ContestRatingDto;
 import com.sibsutis.diploma.springbootbackend.dto.GymDto;
-import com.sibsutis.diploma.springbootbackend.model.Contest;
-import com.sibsutis.diploma.springbootbackend.model.Gym;
-import com.sibsutis.diploma.springbootbackend.model.Problem;
-import com.sibsutis.diploma.springbootbackend.model.StudentProfile;
+import com.sibsutis.diploma.springbootbackend.model.*;
 import com.sibsutis.diploma.springbootbackend.dto.StudentProfileDto;
+import com.sibsutis.diploma.springbootbackend.model.gymModel.Gym;
+import com.sibsutis.diploma.springbootbackend.model.gymModel.Problem;
+import com.sibsutis.diploma.springbootbackend.model.gymModel.Result;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -61,7 +61,9 @@ public class CodeforcesClient {
         return contestsDto.getResult();
     }
 
-    public Map<Gym,List<Problem>> getGym(String handle, long contestId) {
+    // Получение тренировки по id
+    public Result getGym(long contestId) {
+        String handle = "nottey";
         String URI = getURIInfoGym(handle, contestId);
 
         GymDto gymDto = null;
@@ -72,12 +74,11 @@ public class CodeforcesClient {
         }
         assert gymDto != null;
 
-        Gym gym = gymDto.getResult().getContest();
-        List<Problem> problems = gymDto.getResult().getProblems();
-        Map<Gym,List<Problem>> res = new HashMap<>();
-        res.put(gym,problems);
-        return res;
+        return gymDto.getResult();
     }
+
+    // Получение списка решенных задач из тренировки по id тренировки и Хэндлу
+    //
 
     public int getTotalTasksSolvedByHandle(String handle){
         String URL = "https://codeforces.com/profile/" + handle;
@@ -94,7 +95,9 @@ public class CodeforcesClient {
                     solved*=10;
                 }
             }
+
             solved/=10;
+            System.out.println(solved);
             return solved;
 
         } catch (IOException e) {

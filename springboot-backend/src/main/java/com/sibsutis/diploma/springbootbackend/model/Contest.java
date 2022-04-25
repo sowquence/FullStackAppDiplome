@@ -28,15 +28,4 @@ public class Contest {
     private int oldRating;
     @Column(name = "new_rating")
     private int newRating;
-
-    @Override
-    public String toString() {
-        return "Contest{" +
-                "id=" + id +
-                ", contestId=" + contestId +
-                ", contestName='" + contestName + '\'' +
-                ", oldRating=" + oldRating +
-                ", newRating=" + newRating +
-                '}';
-    }
 }
