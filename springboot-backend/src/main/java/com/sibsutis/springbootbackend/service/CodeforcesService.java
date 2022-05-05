@@ -1,14 +1,11 @@
 package com.sibsutis.springbootbackend.service;
 
+import com.sibsutis.springbootbackend.dto.GymResult;
 import com.sibsutis.springbootbackend.model.*;
-import com.sibsutis.springbootbackend.model.gymModel.Gym;
-import com.sibsutis.springbootbackend.model.gymModel.Problem;
-import com.sibsutis.springbootbackend.model.gymModel.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class CodeforcesService {
@@ -20,15 +17,15 @@ public class CodeforcesService {
         return codeforcesClient.getStudentProfile(handle);
     }
 
-    public List<Contest> getStudentContests(String handle){
+    public List<StudentContest> getStudentContests(String handle){
         return codeforcesClient.getStudentContests(handle);
     }
 
-    public Result getStudentGym(long contestId){
-        return codeforcesClient.getGym(contestId);
+    public GymResult getGymResult(long gymId, List<String> handles){
+        return codeforcesClient.getGymResult(gymId,handles);
     }
 
-    public int getTotalTasksSolvedByHandle(String handle){
+    public int getMonthTasksSolvedByHandle(String handle){
         return codeforcesClient.getTotalTasksSolvedByHandle(handle);
     }
 }

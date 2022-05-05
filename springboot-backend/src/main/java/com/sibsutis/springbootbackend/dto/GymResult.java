@@ -1,17 +1,18 @@
 package com.sibsutis.springbootbackend.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sibsutis.springbootbackend.model.Gym;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class GymDto {
-    private String status;
-    private GymResult result;
+public class GymResult {
+    private Gym contest;
+    private List<GymStatusInfo> rows;
 }

@@ -1,7 +1,7 @@
 package com.sibsutis.springbootbackend.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sibsutis.springbootbackend.model.Contest;
+import com.sibsutis.springbootbackend.model.StudentContest;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ContestRatingDto {
+public class StudentContestDto {
     private String status;
-    private List<Contest> result;
+    private List<StudentContest> result;
 }
