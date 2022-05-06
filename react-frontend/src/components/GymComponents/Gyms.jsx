@@ -38,14 +38,14 @@ const Gyms = ({gyms, loading, searchHandler}) => {
 
     return !loading ? (
         <Container>
-            <TextField label="Search.." variant="outlined" style={{width: "100%"}}
+            <TextField label="Поиск.." variant="outlined" style={{width: "100%"}}
                        onChange={(event) => searchHandler(event.target.value)}/>
             <Table sx={{minWidth: 650, height: "100%"}} size="small" aria-label="a dense table">
                 <TableHead>
                     <TableRow>
                         <TableCell>ID</TableCell>
-                        <TableCell align="left">Name</TableCell>
-                        <TableCell align="center">Action</TableCell>
+                        <TableCell align="left">Название</TableCell>
+                        <TableCell align="center"></TableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -68,7 +68,7 @@ const Gyms = ({gyms, loading, searchHandler}) => {
                                 </Select>
                             </TableCell>
                             <TableCell align="center">
-                                <Button variant="contained" onClick={()=>addGym(gym.id,tag)}>Add</Button>
+                                <Button variant="contained" onClick={()=>addGym(gym.id,tag)}>Добавить</Button>
                             </TableCell>
                         </TableRow>
                     ))}

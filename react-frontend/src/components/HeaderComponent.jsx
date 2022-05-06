@@ -7,17 +7,17 @@ const HeaderComponent = () => {
             <header>
                 <nav className="navbar navbar-expand-md navbar-dark bg-dark ">
                     <div>
-                        <a href="/" className="navbar-brand offset-md-3">Student Management Application </a>
+                        <a href="/" className="navbar-brand offset-md-3 h1">Управление студенчискими тренировками </a>
                     </div>
 
                     <Link to={"/students"} style={{marginLeft: "1000px"}}
-                          className=" btn btn-secondary">Students</Link> {"\t "}
+                          className=" btn btn-secondary">Студенты</Link> {"\t "}
                     <Link to={"/profiles"} style={{marginLeft: "10px"}}
-                          className=" btn btn-secondary">Rating</Link>
+                          className=" btn btn-secondary">Рейтинг</Link>
                     <Link to={"/my_gyms"} style={{marginLeft: "10px"}}
-                          className=" btn btn-secondary" >My Gyms</Link>
+                          className=" btn btn-secondary" >Отслеживаемые тренировки</Link>
                     <Link to={"/gyms"} style={{marginLeft: "10px"}}
-                          className=" btn btn-secondary" >Gyms</Link>
+                          className=" btn btn-secondary" >Добавить тренировку</Link>
                 </nav>
             </header>
         </div>

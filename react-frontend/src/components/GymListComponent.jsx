@@ -31,13 +31,13 @@ const GymListComponent = () => {
 
     return (
         <div className="container">
-            <h2 className="text-center">My gym list</h2>
+            <h2 className="text-center mt-5 mb-3">Мои Тренировки</h2>
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Id</th>
-                    <th>Gym Id</th>
-                    <th>Name</th>
+                    <th>Id тренировки</th>
+                    <th>Название</th>
                 </tr>
                 </thead>
                 <tbody>

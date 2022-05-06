@@ -7,21 +7,21 @@ const StudentListComponent = () => {
 
     const [students, setStudents] = useState([]);
 
-    const [sort, setSort] = useState(["Standard", "FioName", "Group", "Handle", "Email"]);
+    const [sort, setSort] = useState(["Стандарт", "ФИО", "ГРУППА", "ХЭНДЛ", "ПОЧТА"]);
     const Add = sort.map(Add => Add);
 
     let sortVal = "0";
 
     const handleSortTypeChange = (e) => {
-        if (sort[e.target.value] === "Standard")
+        if (sort[e.target.value] === "Стандарт")
             sortVal = 0;
-        if (sort[e.target.value] === "Full Name")
+        if (sort[e.target.value] === "ФИО")
             sortVal = 1;
-        if (sort[e.target.value] === "Group")
+        if (sort[e.target.value] === "ГРУППА")
             sortVal = 2;
-        if (sort[e.target.value] === "Handle")
+        if (sort[e.target.value] === "ХЭНДЛ")
             sortVal = 3;
-        if (sort[e.target.value] === "Email")
+        if (sort[e.target.value] === "ПОЧТА")
             sortVal = 4;
         getAllStudents(sortVal);
     }
@@ -56,28 +56,26 @@ const StudentListComponent = () => {
                     <td>{students.groupId}</td>
                     <td>{students.handle}</td>
                     <td>{students.emailID}</td>
-                    <td>
-
+                    <td className="text-center">
                         <Link
                             className="btn btn-info"
                             to={`/info-student/${students.id}`}
                         >
-                            INFO
+                            ИНФО
                         </Link>
                         <Link
                             className="btn btn-secondary"
                             to={`/edit-student/${students.id}`}
                             style={{marginLeft: "10px"}}
                         >
-                            Update
+                            ОБНОВИТЬ
                         </Link>
-
                         <button
                             className="btn btn-danger"
                             onClick={() => deleteStudent(students.id)}
                             style={{marginLeft: "10px"}}
                         >
-                            Delete
+                            УДАЛИТЬ
                         </button>
                     </td>
                 </tr>
@@ -86,11 +84,11 @@ const StudentListComponent = () => {
 
     return (
         <div className="container">
-            <h2 className="text-center">List Students</h2>
+            <h2 className="text-center mt-5 mb-3">Список студентов</h2>
             <div className="row ">
-                <Link to="/add-student" className="col-md-2 btn btn-primary mb-2">Add Student</Link>
+                <Link to="/add-student" className="col-md-2 btn btn-primary mb-2">Добавить Студента</Link>
                 <div className="col-md-10 d-flex justify-content-end">
-                    <h5 className="mt-2 m-2">Sorting By</h5>
+                    <h5 className="mt-2 m-2">Сортировка</h5>
                     <select onChange={e => handleSortTypeChange(e)}>
                         {
                             Add.map((sort, key) => <option key={key} value={key}>{sort}</option>)
@@ -102,11 +100,11 @@ const StudentListComponent = () => {
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
-                    <th>Student Full Name</th>
-                    <th>Student Group</th>
-                    <th>Student Handle</th>
-                    <th>Student Email</th>
-                    <th>Action</th>
+                    <th>ФИО</th>
+                    <th>ГРУППА</th>
+                    <th>ХЭНДЛ</th>
+                    <th>ПОЧТА</th>
+                    <th></th>
                 </tr>
                 </thead>
                 <tbody>

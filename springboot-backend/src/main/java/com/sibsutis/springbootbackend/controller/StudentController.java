@@ -98,6 +98,8 @@ public class StudentController {
 
         StudentProfile studentProfileDetails = codeforcesService.getStudentProfile(studentDetails.getHandle());
 
+        List<StudentContest> studentContests = codeforcesService.getStudentContests(studentDetails.getHandle());
+
         updateStudent.setFullName(studentDetails.getFullName());
         updateStudent.setGroupId(studentDetails.getGroupId());
         updateStudent.setHandle(studentDetails.getHandle());
@@ -108,6 +110,8 @@ public class StudentController {
         updateProfile.setRank(studentProfileDetails.getRank());
         updateProfile.setMaxRating(studentProfileDetails.getMaxRating());
         updateProfile.setMaxRank(studentProfileDetails.getMaxRank());
+
+        updateProfile.setStudentContests(studentContests);
 
         updateStudent.setProfile(updateProfile);
         updateProfile.setStudent(updateStudent);

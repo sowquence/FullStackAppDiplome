@@ -5,13 +5,27 @@ import ContestService from "../services/ContestService";
 const ProfileListComponent = () => {
 
     const [profile, setProfile] = useState([]);
-    const [gyms,setGyms] = useState([]);
+    const [gyms, setGyms] = useState([]);
 
-    const [gymProgress,setGymProgress] = useState([]);
-    const [studentContestsCount, setStudentContestsCount] = useState([]);
+    // const [gymProgress,setGymProgress] = useState([]);
+    // const [studentContestsCount, setStudentContestsCount] = useState([]);
+    // const [startDate, setStartDate] = useState("");
+
+    const [geomCrit, setGeomCrit] = useState(7);
+    const [binCrit, setBinCrit] = useState(4);
+    const [dynCrit, setDynCrit] = useState(6);
+
+    const [contestCrit, setContestCrit] = useState(10);
+    //10 контестов, 6 динамики, 4 Бин поиска, 7 геометрии
 
 
-    const [startDate, setStartDate] = useState("");
+    // геометрия умножаем на 1 +
+    // бин поиск умножаем на 5 +
+    // динамика умножаем на 2 +
+    const [geomBall, setGeomBall] = useState(1);
+    const [binBall, setBinBall] = useState(5);
+    const [dynBall, setDynBall] = useState(2);
+
 
     useEffect(() => {
         getAllProfiles();
@@ -21,88 +35,173 @@ const ProfileListComponent = () => {
     const getAllProfiles = () => {
         ProfileService.getAllProfiles().then((response) => {
             setProfile(response.data)
-            console.log(response.data);
         }).catch(err => {
             console.log(err)
         })
     }
 
     const getAllGyms = () => {
-        ContestService.getGyms().then((response)=>{
+        ContestService.getGyms().then((response) => {
             setGyms(response.data)
-            console.log(response.data);
         }).catch(err => {
             console.log(err)
         })
     }
 
     const getContestForDate = (contests) => {
-        let count = contests.length
-        if (count < 10) return <td style={{backgroundColor:"red"}}>{count}</td>
-        else return <td>{count}</td>
-    }
-//10 контестов, 6 динамики, 4 Бин поиска, 7 геометрии
-    const countDynamic = (profileId) =>{
-        let count = 0;
-        let prgress = [];
-        gyms.filter(gym => gym.tag === 'DYNAMICS=' ?  prgress = gym.gymProgresses  : console.log("2") )
-
-        for (let i = 0; i < prgress.length; i++) {
-            if (prgress[i].profileId === profileId)
-                count =  prgress[i].points
-        }
-
-        if (count < 6) return <td style={{backgroundColor:"red"}}>{count}</td>
-        else return <td>{count}</td>
+        return contests.length;
     }
 
-    const countBinSearch = (profileId) =>{
+    const countDynamic = (profileId) => {
         let count = 0;
         let prgress = [];
-        gyms.filter(gym => gym.tag === 'BINARY=' ?  prgress = gym.gymProgresses  : console.log("2") )
+        gyms.filter(gym => gym.tag === 'DYNAMICS=' ? prgress = gym.gymProgresses : "")
 
         for (let i = 0; i < prgress.length; i++) {
             if (prgress[i].profileId === profileId)
                 count = prgress[i].points
         }
-
-        if (count < 4) return <td style={{backgroundColor:"red"}}>{count}</td>
-        else return <td>{count}</td>
+        return count;
     }
 
-    const countGeometry = (profileId) =>{
+    const countBinSearch = (profileId) => {
         let count = 0;
         let prgress = [];
-        gyms.filter(gym => gym.tag === 'GEOMETRY' ?  prgress = gym.gymProgresses  : console.log("2") )
+        gyms.filter(gym => gym.tag === 'BINARY=' ? prgress = gym.gymProgresses : "")
 
         for (let i = 0; i < prgress.length; i++) {
             if (prgress[i].profileId === profileId)
                 count = prgress[i].points
         }
-        if (count < 7) return <td style={{backgroundColor:"red"}}>{count}</td>
-        else return <td>{count}</td>
+        return count;
+    }
+
+    const countGeometry = (profileId) => {
+        let count = 0;
+        let prgress = [];
+        gyms.filter(gym => gym.tag === 'GEOMETRY=' ? prgress = gym.gymProgresses : "")
+
+        for (let i = 0; i < prgress.length; i++) {
+            if (prgress[i].profileId === profileId)
+                count = prgress[i].points
+        }
+        return count;
+    }
+
+    const scoringPoints = (profile) => {
+        let score = 0;
+        let cont = profile.studentContests.sort((a, b) => a.newRating < b.newRating ? 1 : -1);
+        if (cont.length < 2)
+            score += cont[0].newRating / 2
+        else
+            score += (cont[0].newRating + cont[1].newRating) / 2
+
+        score += profile.monthTasks
+        score += countGeometry(profile.id) * geomBall;
+        score += countBinSearch(profile.id) * binBall;
+        score += countDynamic(profile.id) * dynBall;
+
+        return <td>{score}</td>
     }
 
     const renderTable = () => {
-        return profile.map(
-            profiles =>
-                <tr key={profiles.id}>
-                    <td>{profiles.student.fullName}</td>
-                    <td>{profiles.student.groupId}</td>
-                    <td>{profiles.handle}</td>
-                    {getContestForDate(profiles.studentContests)}
-                    {countDynamic(profiles.id)}
-                    {countBinSearch(profiles.id)}
-                    {countGeometry(profiles.id)}
-                    <td>{profiles.monthTasks}</td>
-                    <td>{profiles.rating}</td>
-                </tr>
-        )
+        return profile
+            .sort((a, b) => a.rating < b.rating ? 1 : -1)
+            .map(
+                profiles =>
+                    <tr key={profiles.id}>
+                        <td>{profiles.student.fullName}</td>
+                        <td>{profiles.student.groupId}</td>
+                        <td>{profiles.handle}</td>
+                        {
+                            getContestForDate(profiles.studentContests) < contestCrit ?
+                                <td style={{backgroundColor: "red"}}>{getContestForDate(profiles.studentContests)}</td> :
+                                <td>{getContestForDate(profiles.studentContests)}</td>
+                        }
+                        {
+                            countDynamic(profiles.id) < dynCrit ?
+                                <td style={{backgroundColor: "red"}}>{countDynamic(profiles.id)}</td> :
+                                <td>{countDynamic(profiles.id)}</td>
+                        }
+                        {
+                            countBinSearch(profiles.id) < binCrit ?
+                                <td style={{backgroundColor: "red"}}>{countBinSearch(profiles.id)}</td> :
+                                <td>{countBinSearch(profiles.id)}</td>
+                        }
+                        {
+                            countGeometry(profiles.id) < geomCrit ?
+                                <td style={{backgroundColor: "red"}}>{countGeometry(profiles.id)}</td> :
+                                <td>{countGeometry(profiles.id)}</td>
+                        }
+                        <td>{profiles.monthTasks}</td>
+                        <td>{profiles.rating}</td>
+                        {scoringPoints(profiles)}
+                    </tr>
+            )
     }
 
     return (
         <div className="container">
-            <h2 className="text-center">Rating list</h2>
+            <h2 className="text-center mt-5 mb-3">Рейтинг студентов</h2>
+            <div className="row">
+                <h5>Критерии:</h5>
+                <div className="form-group mb-2 col-2">
+                    <p>Критерий Геометрии</p>
+                    <input
+                        type="text"
+                        placeholder="Критерий Геометрии"
+                        className="form-control"
+                        value={geomCrit}
+                        onChange={(e) => setGeomCrit(e.target.value)}
+                    />
+                    <p>Коэфициент за задачу</p>
+                    <input
+                        type="text"
+                        placeholder="Коэфициент за задачу"
+                        className="form-control"
+                        value={geomBall}
+                        onChange={(e) => setGeomBall(e.target.value)}
+                    />
+                </div>
+                <div className="form-group mb-2 col-2">
+                    <p>Критерий Бин поиска</p>
+                    <input
+                        type="text"
+                        placeholder="Критерий Бин поиска"
+                        className="form-control"
+                        value={binCrit}
+                        onChange={(e) => setBinCrit(e.target.value)}
+                    />
+                    <p>Коэфициент за задачу</p>
+                    <input
+                        type="text"
+                        placeholder="Коэфициент за задачу"
+                        className="form-control"
+                        value={binBall}
+                        onChange={(e) => setBinBall(e.target.value)}
+                    />
+                </div>
+                <div className="form-group mb-2 col-2">
+                    <p>Критерий Динамики</p>
+                    <input
+                        type="text"
+                        placeholder="Критерий Динамики"
+                        className="form-control"
+                        value={dynCrit}
+                        onChange={(e) => setDynCrit(e.target.value)}
+                    />
+                    <p>Коэфициент за задачу</p>
+                    <input
+                        type="text"
+                        placeholder="Коэфициент за задачу"
+                        className="form-control"
+                        value={dynBall}
+                        onChange={(e) => setDynBall(e.target.value)}
+                    />
+                </div>
+
+            </div>
+
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
@@ -115,6 +214,7 @@ const ProfileListComponent = () => {
                     <th>ГЕОМЕТРИЯ</th>
                     <th>ЗАДАЧ ЗА МЕСЯЦ</th>
                     <th>РЕЙТИНГ</th>
+                    <th>БАЛЛ</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -126,3 +226,11 @@ const ProfileListComponent = () => {
 };
 
 export default ProfileListComponent;
+
+
+// средний рейтинг за 2 контеста + //TODO а если 1?
+// задачи за месяц умножаем на 1 +
+// геометрия умножаем на 1 +
+// бин поиск умножаем на 5 +
+// динамика умножаем на 2 +
+// общее колво контестов начиная с января умножаем на 1
