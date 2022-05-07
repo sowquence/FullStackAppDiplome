@@ -9,7 +9,7 @@ const ProfileListComponent = () => {
 
     // const [gymProgress,setGymProgress] = useState([]);
     // const [studentContestsCount, setStudentContestsCount] = useState([]);
-    // const [startDate, setStartDate] = useState("");
+    const [startDate, setStartDate] = useState(0);
 
     const [geomCrit, setGeomCrit] = useState(7);
     const [binCrit, setBinCrit] = useState(4);
@@ -49,7 +49,12 @@ const ProfileListComponent = () => {
     }
 
     const getContestForDate = (contests) => {
-        return contests.length;
+        let con = 0;
+        for (let i = 0; i < contests.length; i++) {
+            if (contests[i].ratingUpdateTimeSeconds > startDate)
+                con++;
+        }
+        return con;
     }
 
     const countDynamic = (profileId) => {
@@ -59,7 +64,7 @@ const ProfileListComponent = () => {
 
         for (let i = 0; i < prgress.length; i++) {
             if (prgress[i].profileId === profileId)
-                count = prgress[i].points
+                count += prgress[i].points
         }
         return count;
     }
@@ -71,7 +76,7 @@ const ProfileListComponent = () => {
 
         for (let i = 0; i < prgress.length; i++) {
             if (prgress[i].profileId === profileId)
-                count = prgress[i].points
+                count += prgress[i].points
         }
         return count;
     }
@@ -83,7 +88,7 @@ const ProfileListComponent = () => {
 
         for (let i = 0; i < prgress.length; i++) {
             if (prgress[i].profileId === profileId)
-                count = prgress[i].points
+                count += prgress[i].points
         }
         return count;
     }
@@ -100,6 +105,8 @@ const ProfileListComponent = () => {
         score += countGeometry(profile.id) * geomBall;
         score += countBinSearch(profile.id) * binBall;
         score += countDynamic(profile.id) * dynBall;
+
+        score += getContestForDate(profile.studentContests)
 
         return <td>{score}</td>
     }
@@ -146,10 +153,25 @@ const ProfileListComponent = () => {
             <div className="row">
                 <h5>Критерии:</h5>
                 <div className="form-group mb-2 col-2">
-                    <p>Критерий Геометрии</p>
+                    <p>Количество Контестов</p>
                     <input
                         type="text"
-                        placeholder="Критерий Геометрии"
+                        placeholder="Количество Контестов"
+                        className="form-control"
+                        value={contestCrit}
+                        onChange={(e) => setContestCrit(e.target.value)}
+                    />
+                    <p>Дата начала</p>
+                    <input type="date" id="start" name="trip-start"
+                           className="form-control"
+                           onChange={(e) => setStartDate(Math.floor(new Date(e.target.value).getTime() / 1000))}
+                    />
+                </div>
+                <div className="form-group mb-2 col-2">
+                    <p>Количество Геометрии</p>
+                    <input
+                        type="text"
+                        placeholder="Количество Геометрии"
                         className="form-control"
                         value={geomCrit}
                         onChange={(e) => setGeomCrit(e.target.value)}
@@ -164,10 +186,10 @@ const ProfileListComponent = () => {
                     />
                 </div>
                 <div className="form-group mb-2 col-2">
-                    <p>Критерий Бин поиска</p>
+                    <p>Количество Бин поиска</p>
                     <input
                         type="text"
-                        placeholder="Критерий Бин поиска"
+                        placeholder="Количество Бин поиска"
                         className="form-control"
                         value={binCrit}
                         onChange={(e) => setBinCrit(e.target.value)}
@@ -182,10 +204,10 @@ const ProfileListComponent = () => {
                     />
                 </div>
                 <div className="form-group mb-2 col-2">
-                    <p>Критерий Динамики</p>
+                    <p>Количество Динамики</p>
                     <input
                         type="text"
-                        placeholder="Критерий Динамики"
+                        placeholder="Количество Динамики"
                         className="form-control"
                         value={dynCrit}
                         onChange={(e) => setDynCrit(e.target.value)}
@@ -199,7 +221,6 @@ const ProfileListComponent = () => {
                         onChange={(e) => setDynBall(e.target.value)}
                     />
                 </div>
-
             </div>
 
             <table className="table table-bordered table-striped">
@@ -233,4 +254,4 @@ export default ProfileListComponent;
 // геометрия умножаем на 1 +
 // бин поиск умножаем на 5 +
 // динамика умножаем на 2 +
-// общее колво контестов начиная с января умножаем на 1
+// общее колво контестов начиная с января умножаем на 1 +
