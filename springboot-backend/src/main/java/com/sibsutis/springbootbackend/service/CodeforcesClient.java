@@ -22,7 +22,6 @@ public class CodeforcesClient {
     private final RestTemplate restTemplate = new RestTemplate();
     private static final String CODEFORCES_PROFILE_INFO_API_URL = "https://codeforces.com/api/user.info?lang=ru&handles=";
     private static final String CODEFORCES_CONTESTS_INFO_API_URL = "https://codeforces.com/api/user.rating?lang=ru&handle=";
-
     private static final String CODEFORCES_GYM_INFO_API_URL = "https://codeforces.com/api/contest.standings?lang=ru&handles=";
 
     private String getURIInfoContest(String handle, long contestId) {
@@ -53,6 +52,24 @@ public class CodeforcesClient {
         return studentProfileDto.getResult().get(0);
     }
 
+    public List<StudentProfile> getStudentProfiles(List<String> handles) {
+        StringBuilder builderHandles = new StringBuilder(CODEFORCES_PROFILE_INFO_API_URL);
+        for (String handle : handles) {
+            builderHandles.append(handle).append(";");
+        }
+
+        String PROFILE_INFO_API_URL = builderHandles.toString();
+
+        StudentProfileDto studentProfileDto = null;
+        try {
+            studentProfileDto = restTemplate.getForObject(new URI(PROFILE_INFO_API_URL), StudentProfileDto.class);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        assert studentProfileDto != null;
+        return studentProfileDto.getResult();
+    }
+
     //Получение контестов студента на Codeforces
     public List<StudentContest> getStudentContests(String handle) {
         String PROFILE_CONTESTS_API_URL = CODEFORCES_CONTESTS_INFO_API_URL + handle;
@@ -71,7 +88,6 @@ public class CodeforcesClient {
     public GymResult getGymResult(long gymId, List<String> handles) {
 
         String URL_GYM_RESULT = getURIInfoGym(gymId, handles);
-        System.out.println(URL_GYM_RESULT);
         GymDto gymDto = null;
         try {
             gymDto = restTemplate.getForObject(new URI(URL_GYM_RESULT), GymDto.class);
@@ -85,11 +101,10 @@ public class CodeforcesClient {
     public int getTotalTasksSolvedByHandle(String handle) {
         String URL = "https://codeforces.com/profile/" + handle;
         try {
-            //TODO не рабоатет надо думать...
             Document doc = Jsoup.connect(URL).get();
             Elements parse = doc.getElementsByClass("_UserActivityFrame_counterValue");
             if (parse.isEmpty()) return 0;
-            String data = parse.get(0).ownText();
+            String data = parse.get(2).ownText();
 
             int solved = 0;
             for (int i = 0; i < data.length(); i++) {
@@ -101,7 +116,6 @@ public class CodeforcesClient {
             }
 
             solved /= 10;
-            System.out.println(solved);
             return solved;
 
         } catch (IOException e) {

@@ -1,6 +1,5 @@
 package com.sibsutis.springbootbackend.controller;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.sibsutis.springbootbackend.dto.GymResult;
 import com.sibsutis.springbootbackend.dto.GymStatusInfo;
 import com.sibsutis.springbootbackend.model.*;
@@ -36,8 +35,11 @@ public class ContestController {
 
     @PostMapping("/{gymId}")
     public GymResult getGymResult(@PathVariable long gymId,@RequestBody String tag){
+
         List<StudentProfile> studentProfiles = studentProfileRepository.findAll();
+
         List<String> profilesHandles = studentProfiles.stream().map(StudentProfile::getHandle).toList();
+
         GymResult gymResult = codeforcesService.getGymResult(gymId,profilesHandles);
         Gym newGym = gymResult.getContest();
 

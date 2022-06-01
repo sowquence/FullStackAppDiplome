@@ -17,6 +17,9 @@ public class CodeforcesService {
         return codeforcesClient.getStudentProfile(handle);
     }
 
+    public List<StudentProfile> getStudentProfiles(List<String> handles){
+        return codeforcesClient.getStudentProfiles(handles);
+    }
     public List<StudentContest> getStudentContests(String handle){
         return codeforcesClient.getStudentContests(handle);
     }

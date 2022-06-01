@@ -27,10 +27,6 @@ const Gyms = ({gyms, loading, searchHandler}) => {
         });
     }
 
-    const getInfoGym = () =>{
-
-    }
-
     const handleChange = (event) => {
         setTag(event.target.value);
         console.log(tag)

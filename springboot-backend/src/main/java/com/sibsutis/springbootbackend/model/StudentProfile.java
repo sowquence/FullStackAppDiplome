@@ -23,8 +23,8 @@ import java.util.Set;
 public class StudentProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String handle;
+    private long id; // не меняется
+    private String handle; // не меняется
     @Column(name = "curr_rating")
     private int rating;
     @Column(name = "curr_rank")
@@ -39,7 +39,7 @@ public class StudentProfile {
     private int monthTasks;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
-    private Student student;
+    private Student student; // не меняется
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
@@ -48,5 +48,9 @@ public class StudentProfile {
     @OneToMany(mappedBy = "studentProfile", cascade = CascadeType.ALL)
     private Set<GymProgress> gymProgresses = new HashSet<>();
 
+    @Override
+    public String toString() {
+        return  handle ;
+    }
 }
 

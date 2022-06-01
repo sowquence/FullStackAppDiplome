@@ -1,9 +1,10 @@
 package com.sibsutis.springbootbackend.controller;
 
+import com.sibsutis.springbootbackend.dto.GymResult;
+import com.sibsutis.springbootbackend.dto.GymStatusInfo;
 import com.sibsutis.springbootbackend.exception.ResourceNotFoundException;
-import com.sibsutis.springbootbackend.model.StudentContest;
-import com.sibsutis.springbootbackend.model.Student;
-import com.sibsutis.springbootbackend.model.StudentProfile;
+import com.sibsutis.springbootbackend.model.*;
+import com.sibsutis.springbootbackend.repository.GymRepository;
 import com.sibsutis.springbootbackend.repository.StudentProfileRepository;
 import com.sibsutis.springbootbackend.repository.StudentRepository;
 import com.sibsutis.springbootbackend.service.CodeforcesService;
@@ -13,7 +14,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @CrossOrigin(origins = {"http://localhost:3000/", "http://192.168.0.6:3000/"})
 @RestController
@@ -26,6 +30,9 @@ public class StudentController {
     @Autowired
     private StudentProfileRepository studentProfileRepository;
 
+    @Autowired
+    private GymRepository gymRepository;
+
     // Добавление нового студента
     @PostMapping //POST : http://localhost:8080/api/v1/students :: JSON_BODY
     public ResponseEntity<Student> addNewStudent(@RequestBody Student student) {
@@ -33,6 +40,7 @@ public class StudentController {
 
             //поиск профиля студента
             StudentProfile studentProfile = codeforcesService.getStudentProfile(student.getHandle());
+
             // парсинг количества заданий за месяц
             studentProfile.setMonthTasks(codeforcesService.getMonthTasksSolvedByHandle(student.getHandle()));
 
@@ -47,8 +55,30 @@ public class StudentController {
             student.setProfile(studentProfile);
             studentProfile.setStudent(student);
             studentRepository.save(student);
+
+            //Добавление профилю имеющихся тренеровок
+            List<Gym> gyms = gymRepository.findAll();
+            List<String> handle = new ArrayList<>();
+            handle.add(student.getHandle());
+            for (Gym gym: gyms){
+                GymResult gymResult = codeforcesService.getGymResult(gym.getId(),handle);
+                Set<GymProgress> gymProgresses = new HashSet<>();
+                List<GymStatusInfo> gymStatusInfos = gymResult.getRows();
+
+                for (GymStatusInfo gymSt: gymStatusInfos){
+                    gymProgresses.add(new GymProgress(studentProfile,gymSt.getPoints()));
+                }
+                for (GymProgress gp: gymProgresses){
+                    gp.setGym(gym);
+                    gp.setGyId(gym.getId());
+                    gym.getGymProgresses().add(gp);
+                }
+                gymRepository.save(gym);
+            }
+
+
             return ResponseEntity.ok(student);
-        } catch (HttpClientErrorException e){
+        } catch (HttpClientErrorException e) {
             return ResponseEntity.notFound().build();
         }
     }
@@ -60,19 +90,19 @@ public class StudentController {
         int int_val = Integer.parseInt(val);
         if (int_val == 0)
             return sortingStudents;
-        if (int_val == 1){
+        if (int_val == 1) {
             sortingStudents.sort((a, b) -> a.getFullName().compareToIgnoreCase(b.getFullName()));
             return sortingStudents;
         }
-        if (int_val == 2){
+        if (int_val == 2) {
             sortingStudents.sort((a, b) -> a.getGroupId().compareToIgnoreCase(b.getGroupId()));
             return sortingStudents;
         }
-        if (int_val == 3){
+        if (int_val == 3) {
             sortingStudents.sort((a, b) -> a.getHandle().compareToIgnoreCase(b.getHandle()));
             return sortingStudents;
         }
-        if (int_val == 4){
+        if (int_val == 4) {
             sortingStudents.sort((a, b) -> a.getEmailID().compareToIgnoreCase(b.getEmailID()));
             return sortingStudents;
         }

@@ -8,8 +8,12 @@ class ProfileService {
         return axios.get(PROFILE_BASE_REST_API_URL);
     }
 
-    getAllProgresses(){
-        return axios.get(PROFILE_BASE_REST_API_URL+"/progress")
+    updateDataAllProfiles() {
+        return axios.put(PROFILE_BASE_REST_API_URL + "/update");
+    }
+
+    getAllProgresses() {
+        return axios.get(PROFILE_BASE_REST_API_URL + "/progress")
     }
 
 }
