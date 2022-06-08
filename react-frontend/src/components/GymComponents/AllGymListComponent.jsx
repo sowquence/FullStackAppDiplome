@@ -44,7 +44,7 @@ const AllGymListComponent = () => {
     return (
         <div className="container mt-5">
             <div>
-                <h1 className="text-primary"> Доступные тренировки :</h1>
+                <h3 className="text-primary"> Доступные тренировки :</h3>
             </div>
 
             <Gyms gyms={currentGym} loading={loading} searchHandler={searchHandler}/>

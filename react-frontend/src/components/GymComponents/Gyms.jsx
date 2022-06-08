@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
     Autocomplete,
     Button,
@@ -15,12 +15,16 @@ import ContestService from "../../services/ContestService";
 
 const Gyms = ({gyms, loading, searchHandler}) => {
 
-    const tags = ['GEOMETRY','DYNAMICS','BINARY'];
 
-    const [tag,setTag] = useState(tags[0]);
+    const [gymGags, setGymTags] = useState([]);
 
-    const addGym = (gymId,tag) =>{
-        ContestService.saveGym(gymId,tag).then((response) =>{
+
+    const tags = ['GEOMETRY', 'DYNAMICS', 'BINARY'];
+
+    const [tag, setTag] = useState(tags[0]);
+
+    const addGym = (gymId, tag) => {
+        ContestService.saveGym(gymId, tag).then((response) => {
             console.log(response)
         }).catch(error => {
             console.log(error)
@@ -31,6 +35,11 @@ const Gyms = ({gyms, loading, searchHandler}) => {
         setTag(event.target.value);
         console.log(tag)
     };
+
+    useEffect(() => {
+        if (localStorage.getItem("GymTags"))
+            setGymTags(JSON.parse(localStorage.getItem("GymTags")))
+    }, [])
 
     return !loading ? (
         <Container>
@@ -58,13 +67,17 @@ const Gyms = ({gyms, loading, searchHandler}) => {
                                     label="Tag"
                                     onChange={handleChange}
                                 >
-                                    <MenuItem value={'GEOMETRY'}>GEOMETRY</MenuItem>
-                                    <MenuItem value={'DYNAMICS'}>DYNAMICS</MenuItem>
-                                    <MenuItem value={'BINARY'}>BINARY</MenuItem>
+                                    {
+                                        gymGags.map(gT => {
+                                            return (
+                                                <MenuItem value={JSON.stringify(gT.id)}>{gT.gymTag}</MenuItem>
+                                            )
+                                        })
+                                    }
                                 </Select>
                             </TableCell>
                             <TableCell align="center">
-                                <Button variant="contained" onClick={()=>addGym(gym.id,tag)}>Добавить</Button>
+                                <Button variant="contained" onClick={() => addGym(gym.id, tag)}>Добавить</Button>
                             </TableCell>
                         </TableRow>
                     ))}

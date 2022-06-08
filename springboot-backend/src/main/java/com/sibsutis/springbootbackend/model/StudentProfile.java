@@ -1,9 +1,5 @@
 package com.sibsutis.springbootbackend.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,6 +33,12 @@ public class StudentProfile {
     private int solvedContests;
     @Column(name = "tasks_on_month")
     private int monthTasks;
+
+//    private boolean internalOlympiad;
+//    private int tasksOnInternal;
+//    private boolean cityOlympiad;
+//    private int tasksOnCity;
+
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "profile")
     private Student student; // не меняется

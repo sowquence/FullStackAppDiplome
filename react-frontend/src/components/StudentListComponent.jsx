@@ -58,12 +58,6 @@ const StudentListComponent = () => {
                     <td>{students.emailID}</td>
                     <td className="text-center">
                         <Link
-                            className="btn btn-info"
-                            to={`/info-student/${students.id}`}
-                        >
-                            ИНФО
-                        </Link>
-                        <Link
                             className="btn btn-secondary"
                             to={`/edit-student/${students.id}`}
                             style={{marginLeft: "10px"}}

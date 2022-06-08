@@ -13,11 +13,13 @@
     "axios": "^0.26.1",
     "bootstrap": "^5.1.3",
     "file-saver": "^2.0.5",
+    "prettier": "^2.6.2",
     "react": "^18.1.0",
     "react-dimmer": "^1.0.7",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
+    "table2excel": "^1.0.4",
     "web-vitals": "^2.1.4",
     "xlsx": "^0.18.5"
   },

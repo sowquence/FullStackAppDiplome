@@ -9,15 +9,13 @@ const HeaderComponent = () => {
                     <div>
                         <a href="/" className="navbar-brand offset-md-3 h1">Управление студенчискими тренировками </a>
                     </div>
-
-                    <Link to={"/students"} style={{marginLeft: "1000px"}}
+                    <Link to={"/students"} style={{marginLeft: "500px"}}
                           className=" btn btn-secondary">Студенты</Link> {"\t "}
                     <Link to={"/profiles"} style={{marginLeft: "10px"}}
                           className=" btn btn-secondary">Рейтинг</Link>
-                    <Link to={"/my_gyms"} style={{marginLeft: "10px"}}
-                          className=" btn btn-secondary" >Отслеживаемые тренировки</Link>
-                    <Link to={"/gyms"} style={{marginLeft: "10px"}}
-                          className=" btn btn-secondary" >Добавить тренировку</Link>
+
+                    <Link to={"/settings"} style={{marginLeft: "10px"}}
+                          className=" btn btn-secondary" >НАСТРОЙКИ</Link>
                 </nav>
             </header>
         </div>

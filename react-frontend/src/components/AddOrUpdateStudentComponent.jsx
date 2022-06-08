@@ -67,9 +67,9 @@ const AddOrUpdateStudentComponent = () => {
 
     const title = () =>{
         if(id)
-            return <h2 className="text-center">Update Student</h2>
+            return <h2 className="text-center">Обновить данные</h2>
         else
-            return <h2 className="text-center">Add Student</h2>
+            return <h2 className="text-center mt-3">Добавление студента</h2>
     };
 
     return (
@@ -136,8 +136,8 @@ const AddOrUpdateStudentComponent = () => {
                                     />
                                 </div>
 
-                                <button className="btn btn-success" type="submit">Save</button>
-                                <Link to="/students" className="btn btn-danger">Cancel</Link>
+                                <button className="btn btn-success m-1" type="submit">Сохранить</button>
+                                <Link to="/students" className="btn btn-danger">Отмена</Link>
                             </form>
                         </div>
                     </div>

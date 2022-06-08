@@ -4,8 +4,12 @@ import ContestService from "../services/ContestService";
 const GymListComponent = () => {
 
     const [gyms, setGyms] = useState([]);
+    const [gymTags, setGymTags] = useState([]);
 
     useEffect(() => {
+        if (localStorage.getItem("GymTags"))
+            setGymTags(JSON.parse(localStorage.getItem("GymTags")))
+
         getAllGyms();
     }, [])
 
@@ -20,24 +24,28 @@ const GymListComponent = () => {
 
     const renderTable = () => {
         return gyms.map(
-            gym =>
+
+            (gym, i) =>
+
                 <tr key={gym.gid}>
                     <td>{gym.gid}</td>
                     <td>{gym.id}</td>
                     <td>{gym.name}</td>
+                    <td>{gymTags.find(tag =>    `${tag.id}=` === gym.tag).gymTag}</td>
                 </tr>
         )
     }
 
     return (
         <div className="container">
-            <h2 className="text-center mt-5 mb-3">Мои Тренировки</h2>
+            <h3 className="text-center mt-5 mb-3">Отслеживаемые Тренировки</h3>
             <table className="table table-bordered table-striped">
                 <thead>
                 <tr>
                     <th>Id</th>
                     <th>Id тренировки</th>
                     <th>Название</th>
+                    <th>Категория</th>
                 </tr>
                 </thead>
                 <tbody>
